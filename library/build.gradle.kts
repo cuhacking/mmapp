@@ -1,5 +1,6 @@
 plugins {
     kotlin("multiplatform")
+    kotlin("native.cocoapods")
     id("com.android.library")
     id("com.cuhacking.mmapp")
 }
@@ -17,13 +18,17 @@ kotlin {
         browser()
     }
     android()
-    iosX64("ios") {
-        binaries {
-            framework {
-                baseName = "library"
-            }
-        }
+    iosX64("ios") {}
+
+    cocoapods {
+        summary = "mmapp framework"
+        homepage = "https://github.com/cuhacking/mmapp"
+
+        frameworkName = "Mmapp"
+
+        ios.deploymentTarget = "14.0"
     }
+
     sourceSets {
         val commonMain by getting
         val commonTest by getting {
