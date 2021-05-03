@@ -3,6 +3,7 @@ package com.cuhacking.mmapp.gradle
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.UnknownDomainObjectException
+import org.gradle.api.plugins.ExtensionAware
 import org.gradle.authentication.http.BasicAuthentication
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.cocoapods.CocoapodsExtension
@@ -75,7 +76,7 @@ abstract class MmappPlugin : Plugin<Project> {
 
         // Configure iOS SDK dependency
         try {
-            project.extensions.getByType(CocoapodsExtension::class.java).apply {
+            (kotlinExtension as ExtensionAware).extensions.getByType(CocoapodsExtension::class.java).apply {
                 pod("Mapbox-iOS-SDK") {
                     source =
                         url("https://mapbox:${props.getProperty("mapbox.download.key")}@api.mapbox.com/downloads/v2/mobile-maps/releases/ios/packages/6.3.0/mapbox-ios-sdk-dynamic.zip")
