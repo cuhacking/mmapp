@@ -1,5 +1,6 @@
 package com.cuhacking.mmapp.gradle
 
+import de.undercouch.gradle.tasks.download.Download
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.UnknownDomainObjectException
@@ -20,7 +21,7 @@ abstract class MmappPlugin : Plugin<Project> {
         val properties = Properties().apply { load(localProperties.inputStream()) }
 
         check(properties.containsKey("mapbox.download.key")) {
-            "$MAPBOX_KEY not specified in ${localProperties.absolutePath}"
+            "$PROP_MAPBOX_KEY not specified in ${localProperties.absolutePath}"
         }
 
         target.afterEvaluate {
@@ -38,7 +39,7 @@ abstract class MmappPlugin : Plugin<Project> {
                 authentication { auth -> auth.create("basic", BasicAuthentication::class.java) }
                 credentials { credentials ->
                     credentials.username = "mapbox"
-                    credentials.password = props.getProperty(MAPBOX_KEY)
+                    credentials.password = props.getProperty(PROP_MAPBOX_KEY)
                 }
             }
         }
@@ -76,10 +77,26 @@ abstract class MmappPlugin : Plugin<Project> {
 
         // Configure iOS SDK dependency
         try {
+            val podDownloadFile = buildDir.resolve("cocoapods/downloaded/mapbox-ios-sdk-dynamic.zip")
+            tasks.register("downloadMapboxPod", Download::class.java) { task ->
+                task.apply {
+                    username("mapbox")
+                    password(props.getProperty(PROP_MAPBOX_KEY))
+                    authScheme("Basic")
+                    overwrite(false)
+                    onlyIfModified(true)
+
+                    dest(podDownloadFile)
+                }
+            }
+
+            tasks.getByName("generateDefMapbox").dependsOn("downloadMapboxPod")
+
             (kotlinExtension as ExtensionAware).extensions.getByType(CocoapodsExtension::class.java).apply {
+                File("").toURI()
                 pod("Mapbox-iOS-SDK") {
                     source =
-                        url("https://mapbox:${props.getProperty("mapbox.download.key")}@api.mapbox.com/downloads/v2/mobile-maps/releases/ios/packages/6.3.0/mapbox-ios-sdk-dynamic.zip")
+                        url(podDownloadFile.toURI().toString())
                     moduleName = "Mapbox"
                 }
             }
@@ -89,6 +106,6 @@ abstract class MmappPlugin : Plugin<Project> {
     }
 
     companion object {
-        const val MAPBOX_KEY = "mapbox.download.key"
+        private const val PROP_MAPBOX_KEY = "mapbox.download.key"
     }
 }
