@@ -5,6 +5,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.UnknownDomainObjectException
 import org.gradle.api.plugins.ExtensionAware
+import org.gradle.api.tasks.Copy
 import org.gradle.authentication.http.BasicAuthentication
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.cocoapods.CocoapodsExtension
@@ -77,29 +78,36 @@ abstract class MmappPlugin : Plugin<Project> {
 
         // Configure iOS SDK dependency
         try {
-            val podDownloadFile = buildDir.resolve("cocoapods/downloaded/mapbox-ios-sdk-dynamic.zip")
+            val podZip = buildDir.resolve("cocoapods/downloaded/mapbox-ios-sdk-dynamic.zip")
+            val podDir = buildDir.resolve("cocoapods/downloaded/mapbox-ios-sdk-dynamic")
             tasks.register("downloadMapboxPod", Download::class.java) { task ->
                 task.apply {
+                    src("https://api.mapbox.com/downloads/v2/mobile-maps/releases/ios/packages/6.3.0/mapbox-ios-sdk-dynamic.zip")
                     username("mapbox")
                     password(props.getProperty(PROP_MAPBOX_KEY))
                     authScheme("Basic")
                     overwrite(false)
                     onlyIfModified(true)
 
-                    dest(podDownloadFile)
+                    dest(podZip)
                 }
             }
 
-            tasks.getByName("generateDefMapbox").dependsOn("downloadMapboxPod")
+            tasks.register("unzipMapboxPod", Copy::class.java) { task ->
+                task.from(zipTree(podZip))
+                task.into(podDir)
+                task.dependsOn("downloadMapboxPod")
+            }
 
             (kotlinExtension as ExtensionAware).extensions.getByType(CocoapodsExtension::class.java).apply {
                 File("").toURI()
                 pod("Mapbox-iOS-SDK") {
-                    source =
-                        url(podDownloadFile.toURI().toString())
+                    source = path(podDir)
                     moduleName = "Mapbox"
                 }
             }
+
+            tasks.getByName("generateDefMapbox").dependsOn("downloadMapboxPod")
         } catch (_: UnknownDomainObjectException) {
             logger.debug("No cocoapods to configure, skipping.")
         }
