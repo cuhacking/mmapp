@@ -89,6 +89,6 @@ abstract class MmappPlugin : Plugin<Project> {
 
     companion object {
         private const val PROP_MAPBOX_KEY = "mapbox.download.key"
-        private const val PROP_NETRC_WRITE = "mmapp.update.netrc"
+        private const val PROP_NETRC_WRITE = "mmapp.config.netrc"
     }
 }
