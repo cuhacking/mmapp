@@ -78,7 +78,7 @@ abstract class MmappPlugin : Plugin<Project> {
             }
 
             tasks.register("configureNetrc", ConfigureNetrcTask::class.java) { task ->
-                task.onlyIf { properties[PROP_NETRC_WRITE] == "true" }
+                task.onlyIf { props[PROP_NETRC_WRITE] == "true" }
                 task.downloadKey = props.getProperty(PROP_MAPBOX_KEY)
             }
             tasks.getByName("generateDefMapbox").dependsOn("configureNetrc")
