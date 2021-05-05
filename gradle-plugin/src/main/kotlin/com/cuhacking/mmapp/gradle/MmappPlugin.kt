@@ -1,15 +1,12 @@
 package com.cuhacking.mmapp.gradle
 
-import de.undercouch.gradle.tasks.download.Download
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.UnknownDomainObjectException
 import org.gradle.api.plugins.ExtensionAware
-import org.gradle.api.tasks.Copy
 import org.gradle.authentication.http.BasicAuthentication
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.cocoapods.CocoapodsExtension
-import java.io.File
 import java.net.URI
 import java.util.*
 
@@ -21,15 +18,13 @@ abstract class MmappPlugin : Plugin<Project> {
         val localProperties = target.rootDir.resolve("local.properties")
         val properties = Properties().apply { load(localProperties.inputStream()) }
 
-        check(properties.containsKey("mapbox.download.key")) {
+        check(properties.containsKey(PROP_MAPBOX_KEY)) {
             "$PROP_MAPBOX_KEY not specified in ${localProperties.absolutePath}"
         }
 
         target.afterEvaluate {
             target.setupRepositories(properties)
-            if (extension.applyDependencies) {
-                target.setupDependencies(properties)
-            }
+            target.setupDependencies(properties)
         }
     }
 
@@ -78,36 +73,15 @@ abstract class MmappPlugin : Plugin<Project> {
 
         // Configure iOS SDK dependency
         try {
-            val podZip = buildDir.resolve("cocoapods/downloaded/mapbox-ios-sdk-dynamic.zip")
-            val podDir = buildDir.resolve("cocoapods/downloaded/mapbox-ios-sdk-dynamic")
-            tasks.register("downloadMapboxPod", Download::class.java) { task ->
-                task.apply {
-                    src("https://api.mapbox.com/downloads/v2/mobile-maps/releases/ios/packages/6.3.0/mapbox-ios-sdk-dynamic.zip")
-                    username("mapbox")
-                    password(props.getProperty(PROP_MAPBOX_KEY))
-                    authScheme("Basic")
-                    overwrite(false)
-                    onlyIfModified(true)
-
-                    dest(podZip)
-                }
-            }
-
-            tasks.register("unzipMapboxPod", Copy::class.java) { task ->
-                task.from(zipTree(podZip))
-                task.into(podDir)
-                task.dependsOn("downloadMapboxPod")
-            }
-
             (kotlinExtension as ExtensionAware).extensions.getByType(CocoapodsExtension::class.java).apply {
-                File("").toURI()
-                pod("Mapbox-iOS-SDK") {
-                    source = path(podDir)
-                    moduleName = "Mapbox"
-                }
+                pod("Mapbox-iOS-SDK", extension.iosSdkVersion, moduleName = "Mapbox")
             }
 
-            tasks.getByName("generateDefMapbox").dependsOn("downloadMapboxPod")
+            tasks.register("configureNetrc", ConfigureNetrcTask::class.java) { task ->
+                task.onlyIf { properties[PROP_NETRC_WRITE] == "true" }
+                task.downloadKey = props.getProperty(PROP_MAPBOX_KEY)
+            }
+            tasks.getByName("generateDefMapbox").dependsOn("configureNetrc")
         } catch (_: UnknownDomainObjectException) {
             logger.debug("No cocoapods to configure, skipping.")
         }
@@ -115,5 +89,6 @@ abstract class MmappPlugin : Plugin<Project> {
 
     companion object {
         private const val PROP_MAPBOX_KEY = "mapbox.download.key"
+        private const val PROP_NETRC_WRITE = "mmapp.update.netrc"
     }
 }

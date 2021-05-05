@@ -30,7 +30,6 @@ repositories {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.32")
-    implementation("de.undercouch:gradle-download-task:4.1.1")
     testImplementation(kotlin("test-junit"))
 }
 
