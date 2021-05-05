@@ -17,6 +17,13 @@ TODO
 Since Mapbox's Android and iOS SDKs require special authentication to download, a gradle plugin is available to simplify
 the configuration of multiplatform projects with Mapbox dependencies.
 
+This plugin will automatically add mapbox dependencies to your multiplatform targets for supported platforms (JS,
+Android, and iOS), and also set up authentication for the Android and iOS SDKs.
+
+> Note: Because the Mapbox-iOS-SDK cocoapod requires modifying a user's `.netrc` file, an extra line of local 
+> configuration must be added to enable the automatic configuration of authentication to download the iOS dependency. 
+> See below.
+
 To use the plugin, apply it to your project:
 
 ```kotlin
@@ -24,7 +31,7 @@ plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
-    
+
     // mmapp plugin
     id("com.cuhacking.mmapp")
 }
@@ -41,9 +48,9 @@ mmapp {
 ```
 
 Lastly, add your Mapbox download key to your `local.properties` file.
+
 ```properties
 mapbox.download.key=YOUR-DOWNLOAD-KEY-HERE
-
 # Add this if you want the plugin to automatically configure your ~/.netrc file
 mmapp.config.netrc=true
 ```
