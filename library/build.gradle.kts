@@ -21,6 +21,8 @@ kotlin {
     android()
     iosX64("ios") {}
 
+    explicitApi()
+
     cocoapods {
         summary = "mmapp framework"
         homepage = "https://github.com/cuhacking/mmapp"
