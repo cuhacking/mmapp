@@ -65,7 +65,15 @@ kotlin {
 
 android {
     compileSdkVersion(30)
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    sourceSets {
+        val main by getting {
+            manifest.srcFile("src/androidMain/AndroidManifest.xml")
+            java.srcDir("src/androidMain/kotlin")
+        }
+        val test by getting {
+            java.srcDir("src/androidTest/kotlin")
+        }
+    }
     defaultConfig {
         minSdkVersion(21)
         targetSdkVersion(30)
