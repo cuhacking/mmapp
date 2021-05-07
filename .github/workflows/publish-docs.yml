@@ -13,6 +13,22 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Set up cocoapods-generate
+        if: matrix.os == 'macOS-latest'
+        run: gem install cocoapods-generate
+
+      - name: Set up local secrets
+        env:
+          MAPBOX_DOWNLOADS_TOKEN: ${{ secrets.MAPBOX_DOWNLOADS_TOKEN }}
+        run: |
+          echo mapbox.download.key=$MAPBOX_DOWNLOADS_TOKEN > local.properties
+          echo mmapp.config.netrc=true >> local.properties
+
       - name: Build Dokka docs
         run: ./gradlew :library:dokkaHtml --no-daemon --no-parallel
 
