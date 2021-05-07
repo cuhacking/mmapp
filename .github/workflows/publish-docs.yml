@@ -3,7 +3,7 @@ name: Publish Docs
 on:
   push:
     # TODO: Eventually this will only run on tagged releases
-    branches: [ master ]
+    branches: [ main ]
     tags:
       - "*"
 
