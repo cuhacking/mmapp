@@ -5,6 +5,9 @@ buildscript {
         gradlePluginPortal()
         mavenCentral()
     }
+    dependencies {
+        classpath("com.vanniktech:gradle-maven-publish-plugin:0.15.1")
+    }
 }
 
 plugins {
@@ -40,3 +43,5 @@ tasks.test {
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
+
+apply(plugin = "com.vanniktech.maven.publish")

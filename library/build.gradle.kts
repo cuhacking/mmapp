@@ -1,8 +1,11 @@
+import org.jetbrains.dokka.gradle.DokkaTask
+
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
     id("com.cuhacking.mmapp")
+    id("org.jetbrains.dokka")
 }
 
 group = "com.cuhacking.mmapp"
@@ -79,3 +82,27 @@ android {
         targetSdkVersion(30)
     }
 }
+
+tasks.withType<DokkaTask>().configureEach {
+    moduleName.set("mmapp")
+    // TODO: There's probably a better way to do this...
+    dokkaSourceSets {
+        val commonMain by creating {
+            sourceRoot(path = kotlin.sourceSets.getByName("commonMain").kotlin.srcDirs.first().toString())
+        }
+        val androidMain by creating {
+            dependsOn(commonMain)
+            sourceRoot(path = kotlin.sourceSets.getByName("androidMain").kotlin.srcDirs.first().toString())
+        }
+        val iosMain by creating {
+            dependsOn(commonMain)
+            sourceRoot(path = kotlin.sourceSets.getByName("iosMain").kotlin.srcDirs.first().toString())
+        }
+        val jsMain by creating {
+            dependsOn(commonMain)
+            sourceRoot(path = kotlin.sourceSets.getByName("jsMain").kotlin.srcDirs.first().toString())
+        }
+    }
+}
+
+apply(plugin = "com.vanniktech.maven.publish")
