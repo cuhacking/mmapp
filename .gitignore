@@ -1,5 +1,6 @@
 .idea/
 **/.gradle/
 **/build/
+library.podspec
 
 local.properties

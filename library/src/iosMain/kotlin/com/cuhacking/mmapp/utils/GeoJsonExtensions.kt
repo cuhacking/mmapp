@@ -9,7 +9,7 @@ import platform.CoreLocation.CLLocationCoordinate2DMake
 
 @Suppress("ForbiddenComment")
 // TODO: Altitude not supported?
-fun Position.toCoreLocation() = CLLocationCoordinate2DMake(latitude, longitude)
+internal fun Position.toCoreLocation(): CValue<CLLocationCoordinate2D> = CLLocationCoordinate2DMake(latitude, longitude)
 
 internal fun CLLocationCoordinate2D.fromPosition(position: Position) {
     latitude = position.latitude
@@ -22,17 +22,17 @@ internal fun NativePlacement.positionsToCoreLocation(positions: List<Position>) 
         fromPosition(positions[index])
     }
 
-fun Point.toMapbox(): MGLPointFeature =
+internal fun Point.toMapbox(): MGLPointFeature =
     MGLPointFeature().also { it.setCoordinate(coordinates.toCoreLocation()) }
 
-fun MultiPoint.toMapbox(): MGLPointCollectionFeature = memScoped {
+internal fun MultiPoint.toMapbox(): MGLPointCollectionFeature = memScoped {
     MGLPointCollectionFeature.pointCollectionWithCoordinates(
         positionsToCoreLocation(coordinates),
         coordinates.size.convert()
     )!!
 }
 
-fun LineString.toMapbox(): MGLPolylineFeature = memScoped {
+internal fun LineString.toMapbox(): MGLPolylineFeature = memScoped {
     MGLPolylineFeature.polylineWithCoordinates(
         positionsToCoreLocation(coordinates),
         coordinates.size.convert()
@@ -40,7 +40,7 @@ fun LineString.toMapbox(): MGLPolylineFeature = memScoped {
 }
 
 
-fun MultiLineString.toMapbox(): MGLMultiPolylineFeature = memScoped {
+internal fun MultiLineString.toMapbox(): MGLMultiPolylineFeature = memScoped {
     MGLMultiPolylineFeature.multiPolylineWithPolylines(coordinates.map { line ->
         MGLPolyline.polylineWithCoordinates(positionsToCoreLocation(line), line.size.convert())
     })
@@ -64,12 +64,12 @@ internal fun List<List<Position>>.toMGLPolygon(): MGLPolygonFeature = memScoped 
     }
 }
 
-fun Polygon.toMapbox(): MGLPolygonFeature = coordinates.toMGLPolygon()
+internal fun Polygon.toMapbox(): MGLPolygonFeature = coordinates.toMGLPolygon()
 
-fun MultiPolygon.toMapbox(): MGLMultiPolygonFeature =
+internal fun MultiPolygon.toMapbox(): MGLMultiPolygonFeature =
     MGLMultiPolygonFeature.multiPolygonWithPolygons(coordinates.map { polygon -> polygon.toMGLPolygon() })
 
-fun Geometry.toMapbox(): MGLFeatureProtocol = when (this) {
+internal fun Geometry.toMapbox(): MGLFeatureProtocol = when (this) {
     is Point -> this.toMapbox()
     is MultiPoint -> this.toMapbox()
     is LineString -> this.toMapbox()
@@ -79,11 +79,11 @@ fun Geometry.toMapbox(): MGLFeatureProtocol = when (this) {
     is GeometryCollection -> this.toMapbox()
 }
 
-fun GeometryCollection.toMapbox(): MGLShapeCollectionFeature =
+internal fun GeometryCollection.toMapbox(): MGLShapeCollectionFeature =
     MGLShapeCollectionFeature.shapeCollectionWithShapes(geometries.map(Geometry::toMapbox))
 
 @Suppress("UNCHECKED_CAST", "ForbiddenComment")
-fun Feature.toMapbox(): MGLFeatureProtocol? {
+internal fun Feature.toMapbox(): MGLFeatureProtocol {
     // TODO: support for complex object / array properties???
     val dict = properties.entries.map { (key, value) ->
         return@map when {
@@ -104,5 +104,5 @@ fun Feature.toMapbox(): MGLFeatureProtocol? {
     return protocol
 }
 
-fun FeatureCollection.toMapbox(): MGLShapeCollectionFeature =
+internal fun FeatureCollection.toMapbox(): MGLShapeCollectionFeature =
     MGLShapeCollectionFeature.shapeCollectionWithShapes(features.map(Feature::toMapbox))
