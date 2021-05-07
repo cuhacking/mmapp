@@ -1,0 +1,1 @@
+sourceset_dependencies='{":library:dokkaHtml/androidMain":[":library:dokkaHtml/commonMain"],":library:dokkaHtml/commonMain":[],":library:dokkaHtml/iosMain":[":library:dokkaHtml/commonMain"],":library:dokkaHtml/jsMain":[":library:dokkaHtml/commonMain"]}'
