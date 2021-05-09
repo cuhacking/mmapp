@@ -38,7 +38,7 @@ jobs:
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
-        run: ./gradlew :library:publishAllPublicationsToMavenCentralRepository --no-daemon --no-parallel
+        run: ./gradlew :library:uploadArchives --no-daemon --no-parallel
   build-plugin:
     runs-on: ubuntu-latest
     steps:
@@ -70,4 +70,4 @@ jobs:
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
-        run: ./gradlew :gradle-plugin:publishAllPublicationsToMavenCentralRepository --no-daemon --no-parallel
+        run: ./gradlew :gradle-plugin:uploadArchives --no-daemon --no-parallel
