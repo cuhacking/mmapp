@@ -25,7 +25,6 @@ gradlePlugin {
 }
 
 group = "com.cuhacking.mmapp"
-version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()

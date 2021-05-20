@@ -13,7 +13,6 @@ import kotlin.js.JsExport
  * @property properties Style expressions applied to this layer
  * @property filter A predicate expression applied to the data to filter which data to display
  */
-@JsExport
 public interface Layer {
     public val id: String
     public val sourceId: String
