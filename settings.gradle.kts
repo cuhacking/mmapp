@@ -18,4 +18,4 @@ pluginManagement {
 rootProject.name = "mmapp"
 
 includeBuild("gradle-plugin")
-include("library")
+include("mmapp")

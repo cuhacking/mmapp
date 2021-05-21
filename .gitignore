@@ -2,5 +2,6 @@
 **/.gradle/
 **/build/
 library.podspec
+mmapp.podspec
 
 local.properties
