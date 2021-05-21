@@ -38,5 +38,5 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: library/build/dokka/html
+          FOLDER: mmapp/build/dokka/html
           SINGLE_COMMIT: true
