@@ -30,7 +30,7 @@ jobs:
           echo mmapp.config.netrc=true >> local.properties
 
       - name: Build Dokka docs
-        run: ./gradlew :library:dokkaHtml --no-daemon --no-parallel
+        run: ./gradlew :mmapp:dokkaHtml --no-daemon --no-parallel
 
       - name: Deploy 🚀
         if: success()
