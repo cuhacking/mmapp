@@ -54,9 +54,6 @@ jobs:
         with:
           java-version: 11
 
-      - name: Set up cocoapods-generate
-        run: gem install cocoapods-generate
-
       - name: Set up local secrets
         env:
           MAPBOX_DOWNLOADS_TOKEN: ${{ secrets.MAPBOX_DOWNLOADS_TOKEN }}
