@@ -9,10 +9,12 @@ Kotlin Multiplatform Mapbox library.
 |2.2.0|9.6.1|6.3.0|
 
 ## mmapp Library
+![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/com.cuhacking.mmapp/mmapp?server=https%3A%2F%2Foss.sonatype.org%2F)
 
 TODO
 
 ## Gradle Plugin
+![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/com.cuhacking.mmapp/gradle-plugin?server=https%3A%2F%2Foss.sonatype.org%2F)
 
 Since Mapbox's Android and iOS SDKs require special authentication to download, an *optional* gradle plugin is available
 to simplify the configuration of multiplatform projects with Mapbox dependencies. The mmapp library can still be used
