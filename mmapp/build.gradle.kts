@@ -22,7 +22,7 @@ kotlin {
         browser()
     }
     android {
-        publishLibraryVariants("release")
+        publishLibraryVariants("release", "debug")
     }
     iosX64("ios") {}
 
