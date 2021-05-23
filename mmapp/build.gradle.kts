@@ -21,7 +21,9 @@ kotlin {
     js(BOTH) {
         browser()
     }
-    android()
+    android {
+        publishLibraryVariants("release")
+    }
     iosX64("ios") {}
 
     explicitApi()
