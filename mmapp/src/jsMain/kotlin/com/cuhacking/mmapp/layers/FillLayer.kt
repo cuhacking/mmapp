@@ -15,6 +15,7 @@ public actual class FillLayer actual constructor(
     public fun toJsObject(): dynamic {
         val obj = js("{}")
         obj.id = id
+        obj.source = sourceId
         obj.type = "fill"
 
         obj.paint = js("{}")

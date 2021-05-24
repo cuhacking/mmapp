@@ -11,7 +11,94 @@ Kotlin Multiplatform Mapbox library.
 ## mmapp Library
 ![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/com.cuhacking.mmapp/mmapp?server=https%3A%2F%2Foss.sonatype.org%2F)
 
-TODO
+### Data Sources
+
+Currently, only GeoJSON sources are supported. A `GeoJsonSource` can be created in common code and supplied with a 
+[collection of features](https://dellisd.github.io/spatial-k/geojson/#featurecollection).
+
+```kotlin
+// in commonMain
+val featureCollection: FeatureCollection = getFeatures()
+val dataSource = GeoJsonSource("some-data", featureCollection)
+```
+
+In Android code, the `GeoJsonSource` can be used just like a regular Mapbox source.
+```kotlin
+// in androidMain
+mapView.getMapAsync { map ->
+    map.setStyle(Style.DARK) { style ->
+        style.addSource(dataSource)
+    }
+}
+```
+
+In JavaScript, the data source must be converted to a plain JS object before being passed to Mapbox. This can be done 
+with the `.toJsObject()` method.
+```jsx
+// in your JS code
+map.addSource(dataSource.getId(), dataSource.toJsObject())
+
+// Alternatively in React, using a package like react-map-gl
+<Source {...dataSource.toJsObject()} />
+```
+
+In iOS, the raw `MGLShapeSource` instance must be obtained from the data source using the `internalSource` property.
+```swift
+// in your iOS code
+let source = DataSourceKt.exampleDataSource
+mapView.style?.addSource(source.internalSource)
+```
+
+The eventual goal is to allow the common-defined `GeoJsonSource` to be used as though it were a natively-defined object
+on all platforms, just as it is in the Android example. Due to current limitations with Kotlin/JS and Kotlin/Native, 
+this isn't possible yet.
+
+### Layers
+
+Mapbox layers can be constructed using a DSL which provides a type-safe method to specify the style properties.
+
+```kotlin
+// in commonMain
+val exampleLayer = fillLayer(id = "example-layer", sourceId = "some-data") {
+    fillColor("#FF0000")
+    fillOutlineColor("#00FF00")
+}
+```
+
+The same rules as the `GeoJsonSource` apply to using the layer on each platform.
+
+```kotlin
+// in Android
+mapView.getMapAsync { map ->
+    map.setStyle(Style.DARK) { style ->
+        style.addSource(exampleLayer)
+    }
+}
+```
+
+```js
+// in plain Js
+map.addLayer(exampleLayer.toJsObject())
+
+// alternatively, in React using react-map-gl
+<Layer {...exampleLayer.toJsObject()} />
+```
+
+```swift
+// in iOS code
+let layer = DataSourceKt.exampleLayer.getMglLayer(source: source.internalSource)
+mapView.style?.addLayer(layer)
+```
+
+### Expressions
+
+Currently, only literals are supported.
+
+```kotlin
+literal("String Literal")
+literal(65) // Number Literal
+colorLiteral("#FFFFFF") // Color literals, to enable iOS support
+```
 
 ## Gradle Plugin
 ![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/com.cuhacking.mmapp/gradle-plugin?server=https%3A%2F%2Foss.sonatype.org%2F)
