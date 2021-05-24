@@ -23,8 +23,18 @@ abstract class MmappPlugin : Plugin<Project> {
         }
 
         target.afterEvaluate {
+            check(
+                target.plugins.hasPlugin(PLUGIN_MULTIPLATFORM_ID) ||
+                        target.plugins.hasPlugin(PLUGIN_ANDROID_ID)
+            ) {
+                "MMAPP Gradle plugin applied in '${target.path}' but neither the Kotlin Multiplatform nor Kotlin Android Plugin were found"
+            }
             target.setupRepositories(properties)
-            target.setupDependencies(properties)
+            if (target.plugins.hasPlugin(PLUGIN_MULTIPLATFORM_ID)) {
+                target.setupMultiplatformDependencies(properties)
+            } else if (target.plugins.hasPlugin(PLUGIN_ANDROID_ID)) {
+                target.setupAndroidDependencies()
+            }
         }
     }
 
@@ -41,8 +51,8 @@ abstract class MmappPlugin : Plugin<Project> {
         }
     }
 
-    private fun Project.setupDependencies(props: Properties) {
-        check(plugins.hasPlugin("org.jetbrains.kotlin.multiplatform")) {
+    private fun Project.setupMultiplatformDependencies(props: Properties) {
+        check(plugins.hasPlugin(PLUGIN_MULTIPLATFORM_ID)) {
             "MMAPP Gradle plugin applied in '${project.path}' but Kotlin Multiplatform Plugin was not found"
         }
 
@@ -87,8 +97,19 @@ abstract class MmappPlugin : Plugin<Project> {
         }
     }
 
+    private fun Project.setupAndroidDependencies() {
+        check(plugins.hasPlugin(PLUGIN_ANDROID_ID)) {
+            "MMAPP Gradle plugin applied in '${project.path}' but Kotlin Android Plugin was not found"
+        }
+
+        dependencies.add("implementation", "com.mapbox.mapboxsdk:mapbox-android-sdk:${extension.androidSdkVersion}")
+    }
+
     companion object {
         private const val PROP_MAPBOX_KEY = "mapbox.download.key"
         private const val PROP_NETRC_WRITE = "mmapp.config.netrc"
+
+        private const val PLUGIN_MULTIPLATFORM_ID = "org.jetbrains.kotlin.multiplatform"
+        private const val PLUGIN_ANDROID_ID = "org.jetbrains.kotlin.android"
     }
 }
