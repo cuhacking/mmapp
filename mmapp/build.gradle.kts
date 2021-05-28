@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "com.cuhacking.mmapp"
-version = "0.1.0-SNAPSHOT"
+version = "0.1.1-SNAPSHOT"
 
 repositories {
     google()
@@ -40,14 +40,13 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api("io.github.dellisd.spatialk:geojson:0.0.3-SNAPSHOT")
+                api("io.github.dellisd.spatialk:geojson:0.0.4-SNAPSHOT")
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
-                implementation("io.github.dellisd.spatialk:geojson-dsl:0.0.3-SNAPSHOT")
             }
         }
         val androidMain by getting
