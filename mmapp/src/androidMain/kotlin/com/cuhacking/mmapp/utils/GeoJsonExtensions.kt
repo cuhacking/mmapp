@@ -37,9 +37,9 @@ internal fun Position.toMapbox(): MapboxPoint = when (val alt = altitude) {
     else -> MapboxPoint.fromLngLat(longitude, latitude, alt)
 }
 
-internal fun Point.toMapbox(): MapboxPoint = when (val alt = altitude) {
-    null -> MapboxPoint.fromLngLat(longitude, latitude, bbox?.toMapbox())
-    else -> MapboxPoint.fromLngLat(longitude, latitude, alt, bbox?.toMapbox())
+internal fun Point.toMapbox(): MapboxPoint = when (val alt = coordinates.altitude) {
+    null -> MapboxPoint.fromLngLat(coordinates.longitude, coordinates.latitude, bbox?.toMapbox())
+    else -> MapboxPoint.fromLngLat(coordinates.longitude, coordinates.latitude, alt, bbox?.toMapbox())
 }
 
 internal fun MultiPoint.toMapbox(): MapboxMultiPoint =
