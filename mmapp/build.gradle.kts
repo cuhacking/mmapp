@@ -87,6 +87,11 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    // Temporarily disable lint due to false positives on Map.forEach
+    lintOptions {
+        isAbortOnError = false
+    }
 }
 
 tasks.withType<DokkaTask>().configureEach {
