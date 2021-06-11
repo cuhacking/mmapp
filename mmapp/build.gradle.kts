@@ -1,8 +1,8 @@
 import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
-    kotlin("multiplatform")
-    kotlin("native.cocoapods")
+    kotlin("multiplatform") version "1.5.10"
+    kotlin("native.cocoapods") version "1.5.10"
     id("com.android.library") version "7.0.0-beta03"
     id("com.cuhacking.mmapp")
     id("org.jetbrains.dokka")
@@ -40,7 +40,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api("io.github.dellisd.spatialk:geojson:0.0.4-SNAPSHOT")
+                api("io.github.dellisd.spatialk:geojson:0.1.1")
             }
         }
         val commonTest by getting {
