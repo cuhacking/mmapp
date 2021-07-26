@@ -24,7 +24,7 @@ kotlin {
     android {
         publishLibraryVariants("release", "debug")
     }
-    iosX64("ios") {}
+    ios()
 
     explicitApi()
 
