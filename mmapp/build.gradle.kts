@@ -102,7 +102,7 @@ tasks.withType<DokkaTask>().configureEach {
         }
         val iosMain by creating {
             dependsOn(commonMain)
-            sourceRoot(path = kotlin.sourceSets.getByName("iosMain").kotlin.srcDirs.first().toString())
+            sourceRoot(path = kotlin.sourceSets.getByName("iosMainX64").kotlin.srcDirs.first().toString())
         }
         val jsMain by creating {
             dependsOn(commonMain)
