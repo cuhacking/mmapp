@@ -3,7 +3,7 @@ import org.jetbrains.dokka.gradle.DokkaTask
 plugins {
     kotlin("multiplatform") version "1.5.10"
     kotlin("native.cocoapods") version "1.5.10"
-    id("com.android.library") version "7.0.0-beta03"
+    id("com.android.library") version "7.0.0"
     id("com.cuhacking.mmapp")
     id("org.jetbrains.dokka")
 }
@@ -86,11 +86,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    // Temporarily disable lint due to false positives on Map.forEach
-    lintOptions {
-        isAbortOnError = false
     }
 }
 

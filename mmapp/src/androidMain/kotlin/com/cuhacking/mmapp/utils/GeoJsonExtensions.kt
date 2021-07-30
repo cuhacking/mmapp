@@ -1,5 +1,6 @@
 package com.cuhacking.mmapp.utils
 
+import android.annotation.SuppressLint
 import com.google.gson.JsonObject
 import io.github.dellisd.spatialk.geojson.*
 import kotlinx.serialization.json.*
@@ -76,6 +77,7 @@ internal fun Geometry.toMapbox(): MapboxGeometry = when (this) {
     is GeometryCollection -> this.toMapbox()
 }
 
+@SuppressLint("NewApi")
 internal fun Feature.toMapbox(): MapboxFeature {
     val props = JsonObject()
     properties.forEach { (key, value) ->
