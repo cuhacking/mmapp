@@ -50,4 +50,4 @@ jobs:
 
       - name: Run iOS tests
         if: matrix.os == 'macOS-latest'
-        run: ./gradlew iosTest
+        run: ./gradlew iosX64Test
