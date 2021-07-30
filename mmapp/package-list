@@ -20,7 +20,6 @@ $dokka.location:com.cuhacking.mmapp.layers/FillLayer.Companion///PointingToDecla
 $dokka.location:com.cuhacking.mmapp.layers/FillLayer///PointingToDeclaration/mmapp/com.cuhacking.mmapp.layers/-fill-layer/index.html
 $dokka.location:com.cuhacking.mmapp.layers/FillLayer/FillLayer/#kotlin.String#kotlin.String#kotlin.collections.Map[kotlin.String,com.cuhacking.mmapp.expressions.Expression]#com.cuhacking.mmapp.expressions.Expression?/PointingToDeclaration/mmapp/com.cuhacking.mmapp.layers/-fill-layer/-fill-layer.html
 $dokka.location:com.cuhacking.mmapp.layers/FillLayer/filter/#/PointingToDeclaration/mmapp/com.cuhacking.mmapp.layers/-fill-layer/filter.html
-$dokka.location:com.cuhacking.mmapp.layers/FillLayer/getMglLayer/#MGLSource/PointingToDeclaration/mmapp/com.cuhacking.mmapp.layers/-fill-layer/get-mgl-layer.html
 $dokka.location:com.cuhacking.mmapp.layers/FillLayer/id/#/PointingToDeclaration/mmapp/com.cuhacking.mmapp.layers/-fill-layer/id.html
 $dokka.location:com.cuhacking.mmapp.layers/FillLayer/properties/#/PointingToDeclaration/mmapp/com.cuhacking.mmapp.layers/-fill-layer/properties.html
 $dokka.location:com.cuhacking.mmapp.layers/FillLayer/sourceId/#/PointingToDeclaration/mmapp/com.cuhacking.mmapp.layers/-fill-layer/source-id.html
@@ -78,7 +77,6 @@ $dokka.location:com.cuhacking.mmapp.sources/GeoJsonSource///PointingToDeclaratio
 $dokka.location:com.cuhacking.mmapp.sources/GeoJsonSource/GeoJsonSource/#kotlin.String#FeatureCollection?/PointingToDeclaration/mmapp/com.cuhacking.mmapp.sources/-geo-json-source/-geo-json-source.html
 $dokka.location:com.cuhacking.mmapp.sources/GeoJsonSource/data/#/PointingToDeclaration/mmapp/com.cuhacking.mmapp.sources/-geo-json-source/data.html
 $dokka.location:com.cuhacking.mmapp.sources/GeoJsonSource/id/#/PointingToDeclaration/mmapp/com.cuhacking.mmapp.sources/-geo-json-source/id.html
-$dokka.location:com.cuhacking.mmapp.sources/GeoJsonSource/internalSource/#/PointingToDeclaration/mmapp/com.cuhacking.mmapp.sources/-geo-json-source/internal-source.html
 $dokka.location:com.cuhacking.mmapp.sources/GeoJsonSource/setGeoJson/#Feature/PointingToDeclaration/mmapp/com.cuhacking.mmapp.sources/-geo-json-source/set-geo-json.html
 $dokka.location:com.cuhacking.mmapp.sources/GeoJsonSource/setGeoJson/#FeatureCollection/PointingToDeclaration/mmapp/com.cuhacking.mmapp.sources/-geo-json-source/set-geo-json.html
 $dokka.location:com.cuhacking.mmapp.sources/GeoJsonSource/setGeoJson/#Geometry/PointingToDeclaration/mmapp/com.cuhacking.mmapp.sources/-geo-json-source/set-geo-json.html
